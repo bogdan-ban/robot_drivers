@@ -1,0 +1,5 @@
+<launch>
+	<node name="lidar_node" pkg="lidar_driver" type="lidar_node" output="screen"/>
+  	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4"
+    	args="0.0 0.0 0.2 0.0 0.0 0.0 /base_footprint /lase_frame 100" />
+</launch>
