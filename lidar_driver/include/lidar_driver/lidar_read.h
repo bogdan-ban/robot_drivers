@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <std_msgs/UInt8.h>
+#include <lidar_driver/frame.h>
 #include <unistd.h>
 #include <string.h>
 
@@ -30,6 +31,7 @@ private:
 	int frequency = 4500;
 
 	ros::Publisher pub;
+	ros::Publisher pub_frame;
 
 public:
 	Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name);

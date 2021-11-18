@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <std_msgs/UInt8.h>
 #include <sensor_msgs/LaserScan.h>
+#include <lidar_driver/frame.h>
 
 #include <unistd.h>
 #include <string.h>
@@ -68,6 +69,10 @@ bool process_frame(std::vector<uint8_t> buffer)
 	float start_angle, end_angle, diff_angle, angle_i, distance, angle_cor;
 	int index = 0, start_index, end_index, counter = 2;
 
+	//for(int i=0;i<buffer.size();i++)
+		//printf("%x ",buffer[i]);
+	//printf("\n");
+
 	if(buffer[2] != 1)
 	{
 		no_sample_points = buffer[3];
@@ -97,9 +102,9 @@ bool process_frame(std::vector<uint8_t> buffer)
 			//printf("%.4f %.4f %.4f\n", start_angle, end_angle, diff_angle);
 			//printf("%d %d %d\n", start_index, end_index, start_stop_angle);
 
-			if(abs(0.615 - diff_angle / no_sample_points) <= 0.01)
+			if(abs(0.615 - diff_angle / no_sample_points) <= 0.05)
 			{
-
+				//printf("aici");
 				for(int i=1; i<no_sample_points*2-2; i+=2)
 				{
 					angle_i = (diff_angle / (no_sample_points - 1)) * (counter - 1) + start_angle;
@@ -119,7 +124,7 @@ bool process_frame(std::vector<uint8_t> buffer)
 						angle_i -= 360;
 
 					index = angle_i / (diff_angle / no_sample_points);
-					//printf("%.4f %d\n", angle_i, index);
+					//printf("%.4f %d %.4f\n", angle_i, index, distance);
 
 					if(distance < 0 || angle_i < min_angle || angle_i > max_angle || distance < min_distance || distance > max_distance)
 					{
@@ -223,11 +228,12 @@ void process_byte(uint8_t byte)
 		last_byte = byte;
 }
 
-void recevied_bytes(const std_msgs::UInt8 msg)
+void recevied_bytes(const lidar_driver::frame msg)
 {
 	//printf("Process: %x\n",msg.data);
-	process_byte(msg.data);
-	ros::spinOnce();
+	process_frame(msg.frame_bytes);
+	//process_byte(msg.data);
+	//ros::spinOnce();
 }
 
 int main(int argc, char** argv)
@@ -254,7 +260,7 @@ int main(int argc, char** argv)
 
 	nh.getParam("frame_id", frame_id);
 
-	ros::Subscriber sub = nh.subscribe(read_topic_name, TOPIC_BUFFER_SIZE, recevied_bytes);
+	ros::Subscriber sub = nh.subscribe("/frame", TOPIC_BUFFER_SIZE, recevied_bytes);
 
 	pub = nh.advertise<sensor_msgs::LaserScan>(scan_topic_name, TOPIC_BUFFER_SIZE);
 

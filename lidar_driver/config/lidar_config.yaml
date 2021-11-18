@@ -3,7 +3,7 @@ raw_topic: "/bytes"
 port_name: "/dev/ydlidar"
 baudrate: 128000
 
-frequency_read: 4000
+frequency_read: 5000
 
 scan_topic: "/scan_frame" 
 
@@ -11,6 +11,6 @@ max_angle: 360
 min_angle: 0
 
 max_distance: 10
-min_distance: 0.1
+min_distance: 0.13
 
 frame_id: "lase_frame"
