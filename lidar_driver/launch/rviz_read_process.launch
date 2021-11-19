@@ -1,6 +1,8 @@
 <launch>
 	<rosparam command="load" file="$(find lidar_driver)/config/lidar_config.yaml"/>
+	<node name="rviz" pkg="rviz" type = "rviz" args="-d $(find lidar_driver)/config/rviz_config.rviz"/>
+	<node name="read_node" pkg="lidar_driver" type="read_node" output="screen"/>
 	<node name="process_node" pkg="lidar_driver" type="process_node" output="screen"/>
 	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
-		args="0.0 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser_frame 100"/>
+		args="0.0 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser_frame 100" />
 </launch>

@@ -11,8 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   sensor_msgs
-	std_msgs
-	message_generation
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,7 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-	frame.msg
+  frame.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -127,8 +127,8 @@ include_directories(
 #   src/${PROJECT_NAME}/lidar_driver.cpp
 # )
 
-add_library(lidar_driver src/lidar_driver.cpp)
 add_library(lidar_read src/lidar_read.cpp)
+add_library(lidar_process src/lidar_process.cpp)
 
 add_library(uart_communication src/uart_communication.cpp)
 
@@ -144,9 +144,6 @@ add_library(uart_communication src/uart_communication.cpp)
 
 add_executable(read_node src/read_node.cpp)
 add_executable(process_node src/process_node.cpp)
-
-add_executable(lidar_node src/lidar_node.cpp)
-add_executable(lidar_simple_node src/lidar_simple_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -165,15 +162,10 @@ add_executable(lidar_simple_node src/lidar_simple_node.cpp)
 
 target_link_libraries(read_node ${catkin_LIBRARIES})
 target_link_libraries(read_node lidar_read)
+target_link_libraries(lidar_read uart_communication)
 
 target_link_libraries(process_node ${catkin_LIBRARIES})
-
-target_link_libraries(lidar_node ${catkin_LIBRARIES})
-target_link_libraries(lidar_node lidar_driver)
-
-target_link_libraries(lidar_simple_node ${catkin_LIBRARIES})
-
-target_link_libraries(lidar_read uart_communication)
+target_link_libraries(process_node lidar_process)
 
 #############
 ## Install ##

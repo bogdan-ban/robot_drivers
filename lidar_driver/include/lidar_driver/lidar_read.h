@@ -25,19 +25,19 @@ class Lidar_Read: public UartCommunication
 private:
 	int port;
 
-	std::string topic_name = "/bytes";
+	// Default values
+	std::string topic_name = "/raw_frame";
 	std::string port_name = "/dev/ydlidar";
 	int baudrate = 128000;
-	int frequency = 4500;
+	int frequency = 5000;
 
-	ros::Publisher pub;
 	ros::Publisher pub_frame;
 
 public:
 	Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name);
 	~Lidar_Read();
 
-	void read_data(ros::Publisher pub);
+	void read_data();
 	int lidar_start_scan();
 	int lidar_stop_scan();
 	int lidar_reset();

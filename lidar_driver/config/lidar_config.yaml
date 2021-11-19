@@ -1,4 +1,4 @@
-raw_topic: "/bytes"
+raw_topic: "/raw_frame"
 
 port_name: "/dev/ydlidar"
 baudrate: 128000
@@ -13,4 +13,4 @@ min_angle: 0
 max_distance: 10
 min_distance: 0.13
 
-frame_id: "lase_frame"
+frame_id: "laser_frame"

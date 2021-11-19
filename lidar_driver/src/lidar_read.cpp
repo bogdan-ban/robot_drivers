@@ -5,10 +5,7 @@ Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): Uart
 	nh->getParam("raw_topic", topic_name);
 	nh->getParam("frequency_read", frequency);
 
-	printf("%d\n",frequency);
-
-	pub = nh->advertise<std_msgs::UInt8>(topic_name, TOPIC_BUFFER_SIZE);
-	pub_frame = nh->advertise<lidar_driver::frame>("/frame", TOPIC_BUFFER_SIZE);
+	pub_frame = nh->advertise<lidar_driver::frame>("/raw_frame", TOPIC_BUFFER_SIZE);
 
 	int port = get_file_desc();
 
@@ -18,7 +15,8 @@ Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): Uart
 		ros::Duration(3).sleep();
 		lidar_start_scan();
 		ros::Duration(3).sleep();
-		read_data(pub);
+		ROS_INFO("Reading node: Reading data.");
+		read_data();
 	}
 	else
 		ROS_INFO("Port was not open.");
@@ -29,9 +27,8 @@ Lidar_Read::~Lidar_Read()
 	//stop();
 }
 
-void Lidar_Read::read_data(ros::Publisher pub)
+void Lidar_Read::read_data()
 {
-	ROS_INFO("read: Reading data.");
 	std_msgs::UInt8 byte_send;
 	ros::Rate rate(frequency);
 
@@ -42,26 +39,15 @@ void Lidar_Read::read_data(ros::Publisher pub)
 
 	while(ros::ok())
 	{
-		//byte_send.data = read_from_channel();
-		//pub.publish(byte_send);
-		//printf("%x\n",byte);
-
 		byte = read_from_channel();
-		//printf("%x\n",byte);
-		std_msgs::UInt8 byte_s;
-		byte_s.data = byte;
-		pub.publish(byte_s);
 
 		if(frame_started && counter <= no_bytes)
 		{
-			//ROS_INFO("Test for size.");
 			switch(counter)
 			{
 				case 1:
 				{
-					//printf("byte: %x\n", byte);
 					no_bytes += byte*2+1;
-					//printf("no. bytes: %d\n", no_bytes);
 					if(no_bytes <= 90)
 						buffer.push_back(byte);
 					else
@@ -72,17 +58,11 @@ void Lidar_Read::read_data(ros::Publisher pub)
 
 			if(counter == no_bytes-1)
 			{
-				//for(int i=0;i<buffer.size();i++)
-					//printf("%x ",buffer[i]);
-				//buffer.clear();
 				lidar_driver::frame frame;
 				frame.frame_bytes = buffer;
-				//std::cout << frame << std::endl;
 				pub_frame.publish(frame);
 				buffer.clear();
 
-				//print_front();
-				//ROS_INFO("Frame ended.");
 				frame_started = false;
 			}
 
@@ -92,7 +72,6 @@ void Lidar_Read::read_data(ros::Publisher pub)
 
 		if((byte << 8 | last_byte) == 0x55aa)
 		{
-			//ROS_INFO("New Frame.");
 			frame_started = true;
 			counter = 0;
 			no_bytes = 7;
