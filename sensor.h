@@ -15,7 +15,7 @@ public:
 
 	~Sensor() {}
 
-private:
+protected:
 	Communication* communication;
 	void* message;
 };
