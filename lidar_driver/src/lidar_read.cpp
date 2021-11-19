@@ -1,13 +1,11 @@
 #include "lidar_driver/lidar_read.h"
 
-Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): UartCommunication(port_name, baudrate)
+Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): Sensor(new UartCommunication(port_name, baudrate))
 {
 	nh->getParam("raw_topic", topic_name);
 	nh->getParam("frequency_read", frequency);
 
 	pub_frame = nh->advertise<lidar_driver::frame>("/raw_frame", TOPIC_BUFFER_SIZE);
-
-	int port = get_file_desc();
 
 	if(port != -1)
 	{
@@ -16,7 +14,7 @@ Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): Uart
 		lidar_start_scan();
 		ros::Duration(3).sleep();
 		ROS_INFO("Reading node: Reading data.");
-		read_data();
+		process_bytes();
 	}
 	else
 		ROS_INFO("Port was not open.");
@@ -27,7 +25,7 @@ Lidar_Read::~Lidar_Read()
 	//stop();
 }
 
-void Lidar_Read::read_data()
+void Lidar_Read::process_bytes()
 {
 	std_msgs::UInt8 byte_send;
 	ros::Rate rate(frequency);
@@ -35,11 +33,10 @@ void Lidar_Read::read_data()
 	uint8_t last_byte = 0 , counter = 0, byte = 0;
 	bool frame_started= false;
 	uint16_t no_bytes= 12;
-	std::vector<uint8_t> buffer;
 
 	while(ros::ok())
 	{
-		byte = read_from_channel();
+		read_data(&byte,0);
 
 		if(frame_started && counter <= no_bytes)
 		{
@@ -48,7 +45,7 @@ void Lidar_Read::read_data()
 				case 1:
 				{
 					no_bytes += byte*2+1;
-					if(no_bytes <= 90)
+					if(no_bytes <= MAX_FRAME_LENGTH)
 						buffer.push_back(byte);
 					else
 						frame_started = false;
@@ -58,9 +55,8 @@ void Lidar_Read::read_data()
 
 			if(counter == no_bytes-1)
 			{
-				lidar_driver::frame frame;
-				frame.frame_bytes = buffer;
-				pub_frame.publish(frame);
+				create_message();
+				publish_message();
 				buffer.clear();
 
 				frame_started = false;
@@ -89,7 +85,7 @@ int Lidar_Read::lidar_start_scan()
 {
 	uint8_t command_frame[] = { COMMAND_START_BYTE, COMMAND_START_SCAN_BYTE };
 
-	write_to_channel(command_frame, sizeof(command_frame));
+	send_command(command_frame);
 
 	return 1;
 }
@@ -98,7 +94,7 @@ int Lidar_Read::lidar_stop_scan()
 {
 	uint8_t command_frame[] = { COMMAND_START_BYTE, COMMAND_STOP_SCAN_BYTE };
 
-	write_to_channel(command_frame, sizeof(command_frame));
+	send_command(command_frame);
 
 	return 1;
 }
@@ -107,7 +103,37 @@ int Lidar_Read::lidar_reset()
 {
 	uint8_t command_frame[] = { COMMAND_START_BYTE, COMMAND_RESET_BYTE };
 
-	write_to_channel(command_frame, sizeof(command_frame));
+	send_command(command_frame);
 
 	return 1;
+}
+
+void Lidar_Read::start_communication()
+{
+}
+
+void Lidar_Read::stop_communication()
+{
+	communication->stop();
+}
+
+void Lidar_Read::read_data(uint8_t* buffer,int size)
+{
+	*buffer = communication->read_from_channel();
+}
+
+void Lidar_Read::send_command(uint8_t* command)
+{
+	communication->write_to_channel(command, sizeof(command));
+}
+
+void Lidar_Read::publish_message()
+{
+	pub_frame.publish(*static_cast<lidar_driver::frame*>(message));
+}
+
+void Lidar_Read::create_message()
+{
+	frame.frame_bytes = buffer;
+	message = &frame;
 }

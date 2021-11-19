@@ -128,6 +128,7 @@ include_directories(
 # )
 
 add_library(lidar_read src/lidar_read.cpp)
+
 add_library(lidar_process src/lidar_process.cpp)
 
 add_library(uart_communication src/uart_communication.cpp)

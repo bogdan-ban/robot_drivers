@@ -11,16 +11,12 @@
 #include <asm/ioctls.h>
 #include <asm/termbits.h>
 
-#include "uart_communication.h"
+#include "lidar_driver/sensor.h"
+#include "lidar_driver/uart_communication.h"
 
-#define COMMAND_START_BYTE 0xA5
-#define COMMAND_START_SCAN_BYTE 0x60
-#define COMMAND_STOP_SCAN_BYTE 0x65
-#define COMMAND_RESET_BYTE 0x80
+#include "lidar_driver/driver_config.h"
 
-#define TOPIC_BUFFER_SIZE 100
-
-class Lidar_Read: public UartCommunication
+class Lidar_Read: public Sensor
 {
 private:
 	int port;
@@ -33,12 +29,22 @@ private:
 
 	ros::Publisher pub_frame;
 
+	std::vector<uint8_t> buffer;
+	lidar_driver::frame frame;
+
 public:
 	Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name);
 	~Lidar_Read();
 
-	void read_data();
+	void process_bytes();
 	int lidar_start_scan();
 	int lidar_stop_scan();
 	int lidar_reset();
+
+	void start_communication();
+	void stop_communication();
+	void read_data(uint8_t* buffer,int size);
+	void send_command(uint8_t* command);
+	void create_message();
+	void publish_message();
 };

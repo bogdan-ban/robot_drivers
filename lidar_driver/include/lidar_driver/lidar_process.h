@@ -9,7 +9,7 @@
 #include <queue>
 #include <vector>
 
-#define TOPIC_BUFFER_SIZE 100
+#include "lidar_driver/driver_config.h"
 
 class Lidar_Process
 {

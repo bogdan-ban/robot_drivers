@@ -20,7 +20,7 @@ Lidar_Process::Lidar_Process(ros::NodeHandle *nh)
 
 float Lidar_Process::angle_to_rad(float angle)
 {
-	return (angle*3.1415)/180;
+	return (angle*PI)/180;
 }
 
 void Lidar_Process::initial_scan_setup(sensor_msgs::LaserScan *laser_scan)
@@ -62,7 +62,7 @@ void Lidar_Process::process_frame(std::vector<uint8_t> buffer)
 			start_index = start_angle / (diff_angle / no_sample_points);
 			end_index = end_angle / (diff_angle / no_sample_points);
 
-			if(abs(0.615 - diff_angle / no_sample_points) <= 0.05)
+			if(abs(ANGLE_INCREMENT - diff_angle / no_sample_points) <= ANGLE_INCREMENT_TOLERANCE)
 			{
 				for(int i=1; i<no_sample_points*2-2; i+=2)
 				{
@@ -103,7 +103,7 @@ void Lidar_Process::process_frame(std::vector<uint8_t> buffer)
 		initial_scan_setup(&laser_scan);
 
 		laser_scan.header.stamp = ros::Time::now();
-		laser_scan.angle_increment = angle_to_rad(0.625);
+		laser_scan.angle_increment = angle_to_rad(ANGLE_INCREMENT);
 		laser_scan.time_increment = 0;
 		laser_scan.scan_time = 0;
 		laser_scan.ranges = std::vector<float>(distance_array, distance_array + sizeof(distance_array)/sizeof(distance_array[0]));
