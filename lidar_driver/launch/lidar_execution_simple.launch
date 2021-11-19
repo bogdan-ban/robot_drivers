@@ -1,3 +1,0 @@
-<launch>
-	<node name="lidar_node" pkg="lidar_sensor" type="lidar_simple_node" output="screen"/>
-</launch>
