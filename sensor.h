@@ -1,5 +1,3 @@
-#pragma once
-
 #include <stdio.h>
 #include "communication.h"
 
@@ -15,10 +13,7 @@ public:
 	virtual void publish_message() = 0;
 	virtual void create_message() = 0;
 
-	~Sensor() 
-	{
-		stop_communication();
-	}
+	~Sensor() {}
 
 private:
 	Communication* communication;
