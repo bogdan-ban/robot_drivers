@@ -132,7 +132,10 @@ include_directories(
 add_library(i2c_communication src/i2c_communication.cpp)
 add_library(uart_communication src/uart_communication.cpp)
 add_library(bno055_imu src/bno055_imu.cpp)
+<<<<<<< HEAD
 add_library(CommunicationFactory src/CommunicationFactory.cpp)
+=======
+>>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -164,9 +167,12 @@ target_link_libraries(bno055_node ${catkin_LIBRARIES})
 
 target_link_libraries(bno055_node i2c_communication)
 target_link_libraries(bno055_node uart_communication)
+<<<<<<< HEAD
 target_link_libraries(bno055_node CommunicationFactory)
 target_link_libraries(CommunicationFactory i2c_communication)
 target_link_libraries(CommunicationFactory uart_communication)
+=======
+>>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 #############
 ## Install ##

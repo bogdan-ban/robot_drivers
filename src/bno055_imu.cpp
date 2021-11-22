@@ -439,8 +439,11 @@ int main(int argc, char** argv)
 
 	ros::Rate rate(10);
 
+<<<<<<< HEAD
 	CommunicationFactory cf = CommunicationFactory();
 
+=======
+>>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 	int option = 0;
 	cout << "Choose communication: (UART)0, (I2C)1, (SPI)2\n";
@@ -450,10 +453,15 @@ int main(int argc, char** argv)
 	{
 		case 0:
 		{
+<<<<<<< HEAD
 			// UartCommunication uart = UartCommunication("/dev/ttyS0",115200);
 			// Communication* c = &uart;
 
 			Communication* c = cf.create_communication("UART");
+=======
+			UartCommunication uart = UartCommunication("/dev/ttyS0",115200);
+			Communication* c = &uart;
+>>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 
@@ -483,10 +491,15 @@ int main(int argc, char** argv)
 		{
 			// i2c code
 
+<<<<<<< HEAD
 			// I2cCommunication i2c = I2cCommunication("/dev/i2c-2", 0x50);
 			// Communication* c = &i2c;
 
 			Communication* c = cf.create_communication("I2C");
+=======
+			I2cCommunication i2c = I2cCommunication("/dev/i2c-2", 0x50);
+			Communication* c = &i2c;
+>>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 
