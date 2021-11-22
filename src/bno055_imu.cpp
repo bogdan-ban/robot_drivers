@@ -60,80 +60,80 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x0D';
 		read_DATA_Z_LSB[2] = '\x0C';
 		printf("ACC: \n");
-	}else
-		if(opt == "MAG")
-		{
-			read_DATA_X_MSB[2] = '\x0F';
-			read_DATA_X_LSB[2] = '\x0E';
-			read_DATA_Y_MSB[2] = '\x11';
-			read_DATA_Y_LSB[2] = '\x10';
-			read_DATA_Z_MSB[2] = '\x13';
-			read_DATA_Z_LSB[2] = '\x12';
-			printf("MAG: \n");
-		}else
-			if(opt == "GYR")
-			{
-				read_DATA_X_MSB[2] = '\x15';
-				read_DATA_X_LSB[2] = '\x14';
-				read_DATA_Y_MSB[2] = '\x17';
-				read_DATA_Y_LSB[2] = '\x16';
-				read_DATA_Z_MSB[2] = '\x19';
-				read_DATA_Z_LSB[2] = '\x18';
-				printf("GYR: \n");
-			}else
-				if(opt == "EUL")
-				{
-					read_DATA_X_MSB[2] = '\x1B';
-					read_DATA_X_LSB[2] = '\x1A';
-					read_DATA_Y_MSB[2] = '\x1D';
-					read_DATA_Y_LSB[2] = '\x1C';
-					read_DATA_Z_MSB[2] = '\x1F';
-					read_DATA_Z_LSB[2] = '\x1E';
-					printf("EUL: \n");
-				}else
-					if(opt == "QUA")
-					{
-						read_DATA_X_MSB[2] = '\x23';
-						read_DATA_X_LSB[2] = '\x22';
-						read_DATA_Y_MSB[2] = '\x25';
-						read_DATA_Y_LSB[2] = '\x24';
-						read_DATA_Z_MSB[2] = '\x27';
-						read_DATA_Z_LSB[2] = '\x26';
-						printf("QUA: \n");
-						// w
-						uint8_t vec[2];
-						communication->write_to_channel(read_DATA_W_MSB,4);
-						vec[1] = communication->read_from_channel();
-						//printf("LSB: %x\n", vec[1]);
-						//ros::Duration(0.1).sleep();
+	}
+	else if(opt == "MAG")
+	{
+		read_DATA_X_MSB[2] = '\x0F';
+		read_DATA_X_LSB[2] = '\x0E';
+		read_DATA_Y_MSB[2] = '\x11';
+		read_DATA_Y_LSB[2] = '\x10';
+		read_DATA_Z_MSB[2] = '\x13';
+		read_DATA_Z_LSB[2] = '\x12';
+		printf("MAG: \n");
+	}
+	else if(opt == "GYR")
+	{
+		read_DATA_X_MSB[2] = '\x15';
+		read_DATA_X_LSB[2] = '\x14';
+		read_DATA_Y_MSB[2] = '\x17';
+		read_DATA_Y_LSB[2] = '\x16';
+		read_DATA_Z_MSB[2] = '\x19';
+		read_DATA_Z_LSB[2] = '\x18';
+		printf("GYR: \n");
+	}
+	else if(opt == "EUL")
+	{
+		read_DATA_X_MSB[2] = '\x1B';
+		read_DATA_X_LSB[2] = '\x1A';
+		read_DATA_Y_MSB[2] = '\x1D';
+		read_DATA_Y_LSB[2] = '\x1C';
+		read_DATA_Z_MSB[2] = '\x1F';
+		read_DATA_Z_LSB[2] = '\x1E';
+		printf("EUL: \n");
+	}
+	else if(opt == "QUA")
+	{
+		read_DATA_X_MSB[2] = '\x23';
+		read_DATA_X_LSB[2] = '\x22';
+		read_DATA_Y_MSB[2] = '\x25';
+		read_DATA_Y_LSB[2] = '\x24';
+		read_DATA_Z_MSB[2] = '\x27';
+		read_DATA_Z_LSB[2] = '\x26';
+		printf("QUA: \n");
+		// w
+		uint8_t vec[2];
+		communication->write_to_channel(read_DATA_W_MSB,4);
+		vec[1] = communication->read_from_channel();
+		//printf("LSB: %x\n", vec[1]);
+		//ros::Duration(0.1).sleep();
 
-						communication->write_to_channel(read_DATA_W_LSB,4);
-						vec[0] = communication->read_from_channel();
-						//printf("MSB: %x\n", vec[0]);
-						//ros::Duration(0.1).sleep();
+		communication->write_to_channel(read_DATA_W_LSB,4);
+		vec[0] = communication->read_from_channel();
+		//printf("MSB: %x\n", vec[0]);
+		//ros::Duration(0.1).sleep();
 
-						printf("w: %d\n",convert_to_bytes(vec));
-					}else
-						if(opt == "LIA")
-						{
-							read_DATA_X_MSB[2] = '\x29';
-							read_DATA_X_LSB[2] = '\x28';
-							read_DATA_Y_MSB[2] = '\x2B';
-							read_DATA_Y_LSB[2] = '\x2A';
-							read_DATA_Z_MSB[2] = '\x2D';
-							read_DATA_Z_LSB[2] = '\x2C';
-							printf("LIA: \n");
-						}else
-							if(opt == "GRV")
-							{
-								read_DATA_X_MSB[2] = '\x2F';
-								read_DATA_X_LSB[2] = '\x2E';
-								read_DATA_Y_MSB[2] = '\x31';
-								read_DATA_Y_LSB[2] = '\x30';
-								read_DATA_Z_MSB[2] = '\x33';
-								read_DATA_Z_LSB[2] = '\x32';
-								printf("GRV: \n");
-							}
+		printf("w: %d\n",convert_to_bytes(vec));
+	}
+	else if(opt == "LIA")
+	{
+		read_DATA_X_MSB[2] = '\x29';
+		read_DATA_X_LSB[2] = '\x28';
+		read_DATA_Y_MSB[2] = '\x2B';
+		read_DATA_Y_LSB[2] = '\x2A';
+		read_DATA_Z_MSB[2] = '\x2D';
+		read_DATA_Z_LSB[2] = '\x2C';
+		printf("LIA: \n");
+	}
+	else if(opt == "GRV")
+	{
+		read_DATA_X_MSB[2] = '\x2F';
+		read_DATA_X_LSB[2] = '\x2E';
+		read_DATA_Y_MSB[2] = '\x31';
+		read_DATA_Y_LSB[2] = '\x30';
+		read_DATA_Z_MSB[2] = '\x33';
+		read_DATA_Z_LSB[2] = '\x32';
+		printf("GRV: \n");
+	}
 		
 	uint8_t vec[2];
 
@@ -213,7 +213,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		printf("ACC: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 
-	}else if(opt == "MAG")
+	}
+	else if(opt == "MAG")
 	{
 		uint8_t read_X_MSB_command[] = {0xF};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -241,7 +242,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		printf("MAG: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 
-	}else if(opt == "GYR")
+	}
+	else if(opt == "GYR")
 	{
 		uint8_t read_X_MSB_command[] = {0x15};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -269,7 +271,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		printf("GYR: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		
-	}else if(opt == "EUL")
+	}
+	else if(opt == "EUL")
 	{
 		uint8_t read_X_MSB_command[] = {0x1B};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -298,7 +301,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		printf("EUL: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 
 		
-	}else if(opt == "QUA")
+	}
+	else if(opt == "QUA")
 	{
 		uint8_t read_W_MSB_command[] = {0x21};
 		communication->write_to_channel(read_W_MSB_command, 1);
@@ -334,7 +338,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		printf("QUA: (%d, %d, %d, %d)\n",convert_to_bytes(arr0),convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		
-	}else if(opt == "LIA")
+	}
+	else if(opt == "LIA")
 	{
 		uint8_t read_X_MSB_command[] = {0x29};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -363,7 +368,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		printf("LIA: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 
 		
-	}else if(opt == "GRV")
+	}
+	else if(opt == "GRV")
 	{
 		uint8_t read_X_MSB_command[] = {0x2F};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -391,7 +397,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		printf("GRV: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		
-	}else if(opt == "TEMP")
+	}
+	else if(opt == "TEMP")
 	{
 		uint8_t read_temp_command[] = {0x34};
 		communication->write_to_channel(read_temp_command, 1);
@@ -439,11 +446,8 @@ int main(int argc, char** argv)
 
 	ros::Rate rate(10);
 
-<<<<<<< HEAD
 	CommunicationFactory cf = CommunicationFactory();
 
-=======
->>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 	int option = 0;
 	cout << "Choose communication: (UART)0, (I2C)1, (SPI)2\n";
@@ -453,15 +457,7 @@ int main(int argc, char** argv)
 	{
 		case 0:
 		{
-<<<<<<< HEAD
-			// UartCommunication uart = UartCommunication("/dev/ttyS0",115200);
-			// Communication* c = &uart;
-
 			Communication* c = cf.create_communication("UART");
-=======
-			UartCommunication uart = UartCommunication("/dev/ttyS0",115200);
-			Communication* c = &uart;
->>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 
@@ -481,25 +477,14 @@ int main(int argc, char** argv)
 				ros::Duration(1).sleep();
 			}
 
-			bno.stop_communication();
-			
+			bno.stop_communication();	
 
 		}
 		break;
 
 		case 1:
 		{
-			// i2c code
-
-<<<<<<< HEAD
-			// I2cCommunication i2c = I2cCommunication("/dev/i2c-2", 0x50);
-			// Communication* c = &i2c;
-
 			Communication* c = cf.create_communication("I2C");
-=======
-			I2cCommunication i2c = I2cCommunication("/dev/i2c-2", 0x50);
-			Communication* c = &i2c;
->>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 

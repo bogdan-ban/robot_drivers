@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include "communication.h"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
 class Sensor
 {
 public:

@@ -17,11 +17,7 @@
 #include "i2c_communication.h"
 #include "communication.h"
 #include "sensor.h"
-<<<<<<< HEAD
 #include "CommunicationFactory.h"
-=======
->>>>>>> e2039d514b89f03b711c0079379f35475fb8c3fb
-
 
 using namespace std;
 
