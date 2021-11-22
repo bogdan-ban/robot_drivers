@@ -19,10 +19,6 @@ public:
 
 	virtual void stop() = 0;
 
-	// virtual int convert_to_bytes(uint8_t vec[2]) = 0;
-
-	// virtual void read_all_data(const string opt) = 0;
-
 };
 
 #endif
