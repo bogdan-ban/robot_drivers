@@ -30,7 +30,7 @@ public:
 
 	int get_file_desc();
 
-
+	// not inherited methods
 	int convert_to_bytes(uint8_t vec[2]);
 
 	void read_all_data(const string opt);

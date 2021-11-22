@@ -131,7 +131,7 @@ include_directories(
 
 add_library(i2c_communication src/i2c_communication.cpp)
 add_library(uart_communication src/uart_communication.cpp)
-add_library(data_collector src/data_collector.cpp)
+add_library(bno055_imu src/bno055_imu.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -143,8 +143,8 @@ add_library(data_collector src/data_collector.cpp)
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/robot_drivers_node.cpp)
 
-add_executable(data_collector_node src/data_collector.cpp)
-target_link_libraries(data_collector_node ${catkin_LIBRARIES})
+add_executable(bno055_node src/bno055_imu.cpp)
+target_link_libraries(bno055_node ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -161,8 +161,8 @@ target_link_libraries(data_collector_node ${catkin_LIBRARIES})
 #   ${catkin_LIBRARIES}
 # )
 
-target_link_libraries(data_collector_node i2c_communication)
-target_link_libraries(data_collector_node uart_communication)
+target_link_libraries(bno055_node i2c_communication)
+target_link_libraries(bno055_node uart_communication)
 
 #############
 ## Install ##
@@ -174,7 +174,7 @@ target_link_libraries(data_collector_node uart_communication)
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 # catkin_install_python(PROGRAMS
-#   scripts/my_python_script
+#   scripts/my_python_scriptlea
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
