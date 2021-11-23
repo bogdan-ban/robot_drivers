@@ -104,11 +104,18 @@ void Lidar_Process::process_frame(std::vector<uint8_t> buffer)
 
 		laser_scan.header.stamp = ros::Time::now();
 		laser_scan.angle_increment = angle_to_rad(ANGLE_INCREMENT);
-		laser_scan.time_increment = 0;
-		laser_scan.scan_time = 0;
+		laser_scan.scan_time = ros::Time::now().toSec() - start_time_scan;
+		start_time_scan = ros::Time::now().toSec();
+
+		//laser_scan.time_increment = 0;
+		//laser_scan.scan_time = 0;
+
 		laser_scan.ranges = std::vector<float>(distance_array, distance_array + sizeof(distance_array)/sizeof(distance_array[0]));
 		laser_scan.header.seq = seq;
 		seq++;
+
+		for(int i=0;i<MAX_NUMBER_DISTANCES;i++)
+			distance_array[i] =0;
 
 		pub.publish(laser_scan);
 	}
@@ -116,5 +123,7 @@ void Lidar_Process::process_frame(std::vector<uint8_t> buffer)
 
 void Lidar_Process::recevied_bytes(const lidar_driver::frame msg)
 {
+	laser_scan.time_increment = ros::Time::now().toSec() - start_time_measure;
+	start_time_measure = ros::Time::now().toSec();
 	process_frame(msg.frame_bytes);
 }

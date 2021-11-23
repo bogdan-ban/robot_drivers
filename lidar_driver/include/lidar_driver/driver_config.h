@@ -12,3 +12,4 @@
 // Can be tuned
 #define TOPIC_BUFFER_SIZE 100
 #define PI 3.1415
+#define MAX_NUMBER_DISTANCES 620

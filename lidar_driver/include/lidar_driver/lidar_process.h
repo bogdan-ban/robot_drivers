@@ -19,8 +19,7 @@ private:
 	bool frame_started = false;
 	uint16_t no_bytes = 12;
 
-	// Make a MACRO for the array length
-	float distance_array[620] = {0};
+	float distance_array[MAX_NUMBER_DISTANCES] = {0};
 
 	int seq = 0;
 
@@ -38,6 +37,9 @@ private:
 	ros::Subscriber sub;
 
 	sensor_msgs::LaserScan laser_scan;
+
+	double start_time_scan = 0;
+	double start_time_measure = 0;
 public:
 	Lidar_Process(ros::NodeHandle *nh);
 
