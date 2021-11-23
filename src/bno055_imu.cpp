@@ -14,22 +14,17 @@ void BNO055_IMU::read_data(uint8_t* buffer, int size)
 {
 	if(option == "UART")
 	{
-		read_all_data_UART("ACC");
-		read_all_data_UART("MAG");
-		read_all_data_UART("GYR");
-		read_all_data_UART("EUL");
-		read_all_data_UART("QUA");
-		read_all_data_UART("LIA");
-		read_all_data_UART("GRV");
-	}else if(option == "I2C")
+		for(auto f : features)
+		{
+			read_all_data_UART(f);
+		}
+	}
+	else if(option == "I2C")
 	{
-		read_all_data_I2C("ACC");
-		read_all_data_I2C("MAG");
-		read_all_data_I2C("GYR");
-		read_all_data_I2C("EUL");
-		read_all_data_I2C("QUA");
-		read_all_data_I2C("LIA");
-		read_all_data_I2C("GRV");
+		for(auto f : features)
+		{
+			read_all_data_I2C(f);
+		}
 	}
 }
 
@@ -40,12 +35,16 @@ int BNO055_IMU::convert_to_bytes(uint8_t vec[2])
 
 void BNO055_IMU::read_all_data_UART(const string opt)
 {
-	uint8_t read_DATA_X_MSB[4] = { 0xAA, 0x01, 0x0, 0x01};
-	uint8_t read_DATA_X_LSB[4] = { 0xAA, 0x01, 0x0, 0x01};
-	uint8_t read_DATA_Y_MSB[4] = { 0xAA, 0x01, 0x0, 0x01};
-	uint8_t read_DATA_Y_LSB[4] = { 0xAA, 0x01, 0x0, 0x01};
-	uint8_t read_DATA_Z_MSB[4] = { 0xAA, 0x01, 0x0, 0x01};
-	uint8_t read_DATA_Z_LSB[4] = { 0xAA, 0x01, 0x0, 0x01};
+
+	uint8_t read_DATA_X_MSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 1
+	uint8_t read_DATA_X_LSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 2
+	uint8_t read_DATA_Y_MSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 3
+	uint8_t read_DATA_Y_LSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 4
+	uint8_t read_DATA_Z_MSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 5
+	uint8_t read_DATA_Z_LSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 6
+	
+
+	std::vector<uint8_t*> registers = {read_DATA_X_LSB, read_DATA_X_MSB, read_DATA_Y_LSB, read_DATA_Y_MSB, read_DATA_Z_LSB, read_DATA_Z_MSB};
 
 	// for quaternion
 	uint8_t read_DATA_W_MSB[4] = { 0xAA, 0x01, 0x21, 0x01};
@@ -53,52 +52,86 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 	if(opt == "ACC")
 	{
-		read_DATA_X_MSB[2] = '\x09';
-		read_DATA_X_LSB[2] = '\x08';
-		read_DATA_Y_MSB[2] = '\x0B';
-		read_DATA_Y_LSB[2] = '\x0A';
-		read_DATA_Z_MSB[2] = '\x0D';
-		read_DATA_Z_LSB[2] = '\x0C';
+		uint8_t nr = 0x08;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+
+		// read_DATA_X_MSB[2] = '\x09';
+		// read_DATA_X_LSB[2] = '\x08';
+		// read_DATA_Y_MSB[2] = '\x0B';
+		// read_DATA_Y_LSB[2] = '\x0A';
+		// read_DATA_Z_MSB[2] = '\x0D';
+		// read_DATA_Z_LSB[2] = '\x0C';
 		printf("ACC: \n");
 	}
 	else if(opt == "MAG")
 	{
+		uint8_t nr = 0x0E;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x0F';
 		read_DATA_X_LSB[2] = '\x0E';
 		read_DATA_Y_MSB[2] = '\x11';
 		read_DATA_Y_LSB[2] = '\x10';
 		read_DATA_Z_MSB[2] = '\x13';
 		read_DATA_Z_LSB[2] = '\x12';
+		*/
 		printf("MAG: \n");
 	}
 	else if(opt == "GYR")
 	{
+		uint8_t nr = 0x14;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x15';
 		read_DATA_X_LSB[2] = '\x14';
 		read_DATA_Y_MSB[2] = '\x17';
 		read_DATA_Y_LSB[2] = '\x16';
 		read_DATA_Z_MSB[2] = '\x19';
 		read_DATA_Z_LSB[2] = '\x18';
+		*/
 		printf("GYR: \n");
 	}
 	else if(opt == "EUL")
 	{
+		uint8_t nr = 0x1A;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x1B';
 		read_DATA_X_LSB[2] = '\x1A';
 		read_DATA_Y_MSB[2] = '\x1D';
 		read_DATA_Y_LSB[2] = '\x1C';
 		read_DATA_Z_MSB[2] = '\x1F';
 		read_DATA_Z_LSB[2] = '\x1E';
+		*/
 		printf("EUL: \n");
 	}
 	else if(opt == "QUA")
 	{
+		uint8_t nr = 0x22;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x23';
 		read_DATA_X_LSB[2] = '\x22';
 		read_DATA_Y_MSB[2] = '\x25';
 		read_DATA_Y_LSB[2] = '\x24';
 		read_DATA_Z_MSB[2] = '\x27';
 		read_DATA_Z_LSB[2] = '\x26';
+		*/
 		printf("QUA: \n");
 		// w
 		uint8_t vec[2];
@@ -116,34 +149,50 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "LIA")
 	{
+		uint8_t nr = 0x08;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x29';
 		read_DATA_X_LSB[2] = '\x28';
 		read_DATA_Y_MSB[2] = '\x2B';
 		read_DATA_Y_LSB[2] = '\x2A';
 		read_DATA_Z_MSB[2] = '\x2D';
 		read_DATA_Z_LSB[2] = '\x2C';
+		*/
 		printf("LIA: \n");
 	}
 	else if(opt == "GRV")
 	{
+		uint8_t nr = 0x08;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[2] = nr++;
+		}
+		/*
 		read_DATA_X_MSB[2] = '\x2F';
 		read_DATA_X_LSB[2] = '\x2E';
 		read_DATA_Y_MSB[2] = '\x31';
 		read_DATA_Y_LSB[2] = '\x30';
 		read_DATA_Z_MSB[2] = '\x33';
 		read_DATA_Z_LSB[2] = '\x32';
+		*/
 		printf("GRV: \n");
 	}
 		
 	uint8_t vec[2];
 
 	// x
-	communication->write_to_channel(read_DATA_X_MSB,4);
+	// communication->write_to_channel(read_DATA_X_MSB,4);
+	communication->write_to_channel(registers.at(1),4);
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
-	communication->write_to_channel(read_DATA_X_LSB,4);
+	// communication->write_to_channel(read_DATA_X_LSB,4);
+	communication->write_to_channel(registers.at(0),4);
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -151,12 +200,14 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	printf("x: %d\n",convert_to_bytes(vec));
 
 	// y
-	communication->write_to_channel(read_DATA_Y_MSB,4);
+	// communication->write_to_channel(read_DATA_Y_MSB,4);
+	communication->write_to_channel(registers.at(3),4);
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
-	communication->write_to_channel(read_DATA_Y_LSB,4);
+	// communication->write_to_channel(read_DATA_Y_LSB,4);
+	communication->write_to_channel(registers.at(2),4);
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -164,12 +215,14 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	printf("y: %d\n",convert_to_bytes(vec));
 
 	// z
-	communication->write_to_channel(read_DATA_Z_MSB,4);
+	// communication->write_to_channel(read_DATA_Z_MSB,4);
+	communication->write_to_channel(registers.at(5),4);
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
-	communication->write_to_channel(read_DATA_Z_LSB,4);
+	// communication->write_to_channel(read_DATA_Z_LSB,4);
+	communication->write_to_channel(registers.at(4),4);
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -457,7 +510,7 @@ int main(int argc, char** argv)
 	{
 		case 0:
 		{
-			Communication* c = cf.create_communication("UART");
+			Communication* c = cf.create_communication("UART", "/dev/ttyS0", 115200);
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 
@@ -484,7 +537,7 @@ int main(int argc, char** argv)
 
 		case 1:
 		{
-			Communication* c = cf.create_communication("I2C");
+			Communication* c = cf.create_communication("I2C", "/dev/i2c-2", 0x50);
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 

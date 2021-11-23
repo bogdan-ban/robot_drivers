@@ -110,81 +110,81 @@ void UartCommunication::read_all_data(const string opt)
 		read_DATA_Z_MSB[2] = '\x0D';
 		read_DATA_Z_LSB[2] = '\x0C';
 		printf("ACC: \n");
-	}else
-		if(opt == "MAG")
-		{
-			read_DATA_X_MSB[2] = '\x0F';
-			read_DATA_X_LSB[2] = '\x0E';
-			read_DATA_Y_MSB[2] = '\x11';
-			read_DATA_Y_LSB[2] = '\x10';
-			read_DATA_Z_MSB[2] = '\x13';
-			read_DATA_Z_LSB[2] = '\x12';
-			printf("MAG: \n");
-		}else
-			if(opt == "GYR")
-			{
-				read_DATA_X_MSB[2] = '\x15';
-				read_DATA_X_LSB[2] = '\x14';
-				read_DATA_Y_MSB[2] = '\x17';
-				read_DATA_Y_LSB[2] = '\x16';
-				read_DATA_Z_MSB[2] = '\x19';
-				read_DATA_Z_LSB[2] = '\x18';
-				printf("GYR: \n");
-			}else
-				if(opt == "EUL")
-				{
-					read_DATA_X_MSB[2] = '\x1B';
-					read_DATA_X_LSB[2] = '\x1A';
-					read_DATA_Y_MSB[2] = '\x1D';
-					read_DATA_Y_LSB[2] = '\x1C';
-					read_DATA_Z_MSB[2] = '\x1F';
-					read_DATA_Z_LSB[2] = '\x1E';
-					printf("EUL: \n");
-				}else
-					if(opt == "QUA")
-					{
-						read_DATA_X_MSB[2] = '\x23';
-						read_DATA_X_LSB[2] = '\x22';
-						read_DATA_Y_MSB[2] = '\x25';
-						read_DATA_Y_LSB[2] = '\x24';
-						read_DATA_Z_MSB[2] = '\x27';
-						read_DATA_Z_LSB[2] = '\x26';
-						printf("QUA: \n");
-						// w
-						uint8_t vec[2];
-						write_to_channel(read_DATA_W_MSB,4);
-						vec[1] = read_from_channel();
-						//printf("LSB: %x\n", vec[1]);
-						//ros::Duration(0.1).sleep();
+	}
+	else if(opt == "MAG")
+	{
+		read_DATA_X_MSB[2] = '\x0F';
+		read_DATA_X_LSB[2] = '\x0E';
+		read_DATA_Y_MSB[2] = '\x11';
+		read_DATA_Y_LSB[2] = '\x10';
+		read_DATA_Z_MSB[2] = '\x13';
+		read_DATA_Z_LSB[2] = '\x12';
+		printf("MAG: \n");
+	}
+	else if(opt == "GYR")
+	{
+		read_DATA_X_MSB[2] = '\x15';
+		read_DATA_X_LSB[2] = '\x14';
+		read_DATA_Y_MSB[2] = '\x17';
+		read_DATA_Y_LSB[2] = '\x16';
+		read_DATA_Z_MSB[2] = '\x19';
+		read_DATA_Z_LSB[2] = '\x18';
+		printf("GYR: \n");
+	}
+	else if(opt == "EUL")
+	{
+		read_DATA_X_MSB[2] = '\x1B';
+		read_DATA_X_LSB[2] = '\x1A';
+		read_DATA_Y_MSB[2] = '\x1D';
+		read_DATA_Y_LSB[2] = '\x1C';
+		read_DATA_Z_MSB[2] = '\x1F';
+		read_DATA_Z_LSB[2] = '\x1E';
+		printf("EUL: \n");
+	}
+	else if(opt == "QUA")
+	{
+		read_DATA_X_MSB[2] = '\x23';
+		read_DATA_X_LSB[2] = '\x22';
+		read_DATA_Y_MSB[2] = '\x25';
+		read_DATA_Y_LSB[2] = '\x24';
+		read_DATA_Z_MSB[2] = '\x27';
+		read_DATA_Z_LSB[2] = '\x26';
+		printf("QUA: \n");
+		// w
+		uint8_t vec[2];
+		write_to_channel(read_DATA_W_MSB,4);
+		vec[1] = read_from_channel();
+		//printf("LSB: %x\n", vec[1]);
+		//ros::Duration(0.1).sleep();
 
-						write_to_channel(read_DATA_W_LSB,4);
-						vec[0] = read_from_channel();
-						//printf("MSB: %x\n", vec[0]);
-						//ros::Duration(0.1).sleep();
+		write_to_channel(read_DATA_W_LSB,4);
+		vec[0] = read_from_channel();
+		//printf("MSB: %x\n", vec[0]);
+		//ros::Duration(0.1).sleep();
 
-						printf("w: %d\n",convert_to_bytes(vec));
-					}else
-						if(opt == "LIA")
-						{
-							read_DATA_X_MSB[2] = '\x29';
-							read_DATA_X_LSB[2] = '\x28';
-							read_DATA_Y_MSB[2] = '\x2B';
-							read_DATA_Y_LSB[2] = '\x2A';
-							read_DATA_Z_MSB[2] = '\x2D';
-							read_DATA_Z_LSB[2] = '\x2C';
-							printf("LIA: \n");
-						}else
-							if(opt == "GRV")
-							{
-								read_DATA_X_MSB[2] = '\x2F';
-								read_DATA_X_LSB[2] = '\x2E';
-								read_DATA_Y_MSB[2] = '\x31';
-								read_DATA_Y_LSB[2] = '\x30';
-								read_DATA_Z_MSB[2] = '\x33';
-								read_DATA_Z_LSB[2] = '\x32';
-								printf("GRV: \n");
-							}
-		
+		printf("w: %d\n",convert_to_bytes(vec));
+	}
+	else if(opt == "LIA")
+	{
+		read_DATA_X_MSB[2] = '\x29';
+		read_DATA_X_LSB[2] = '\x28';
+		read_DATA_Y_MSB[2] = '\x2B';
+		read_DATA_Y_LSB[2] = '\x2A';
+		read_DATA_Z_MSB[2] = '\x2D';
+		read_DATA_Z_LSB[2] = '\x2C';
+		printf("LIA: \n");
+	}
+	else if(opt == "GRV")
+	{
+		read_DATA_X_MSB[2] = '\x2F';
+		read_DATA_X_LSB[2] = '\x2E';
+		read_DATA_Y_MSB[2] = '\x31';
+		read_DATA_Y_LSB[2] = '\x30';
+		read_DATA_Z_MSB[2] = '\x33';
+		read_DATA_Z_LSB[2] = '\x32';
+		printf("GRV: \n");
+	}
+	
 	uint8_t vec[2];
 
 	// x

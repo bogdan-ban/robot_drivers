@@ -22,6 +22,8 @@
 using namespace std;
 
 
+std::vector<string> features = {"ACC","MAG","GYR","EUL","QUA","LIA","GRV"};
+
 class BNO055_IMU : public Sensor
 {
 private:

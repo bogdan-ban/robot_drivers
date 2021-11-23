@@ -13,6 +13,6 @@ public:
 
 	CommunicationFactory();
 
-	Communication* create_communication(string name);
+	Communication* create_communication(string name, char* path, int baudrate_or_addr);
 
 };
