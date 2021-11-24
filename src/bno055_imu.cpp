@@ -257,7 +257,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 	if(opt == "ACC")
 	{
-		uint8_t nr = 0x08; // #define ACC_START
+		uint8_t nr = ACC_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -281,7 +281,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "MAG")
 	{
-		uint8_t nr = 0xE;
+		uint8_t nr = MAG_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -320,7 +320,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "GYR")
 	{
-		uint8_t nr = 0x14;
+		uint8_t nr = GYR_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -357,7 +357,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "EUL")
 	{
-		uint8_t nr = 0x1A;
+		uint8_t nr = EUL_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -395,7 +395,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "QUA")
 	{
-		uint8_t nr = 0x20;
+		uint8_t nr = QUA_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -440,7 +440,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "LIA")
 	{
-		uint8_t nr = 0x28;
+		uint8_t nr = LIA_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;
@@ -478,7 +478,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	}
 	else if(opt == "GRV")
 	{
-		uint8_t nr = 0x2E;
+		uint8_t nr = GRV_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[0] = nr++;

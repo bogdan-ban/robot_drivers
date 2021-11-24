@@ -19,6 +19,14 @@
 #include "sensor.h"
 #include "CommunicationFactory.h"
 
+#define ACC_START_BYTE 0x08
+#define MAG_START_BYTE 0xE
+#define GYR_START_BYTE 0x14
+#define EUL_START_BYTE 0x1A
+#define QUA_START_BYTE 0x20
+#define LIA_START_BYTE 0x28
+#define GRV_START_BYTE 0x2E
+
 using namespace std;
 
 
