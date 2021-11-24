@@ -186,13 +186,15 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 	// x
 	// communication->write_to_channel(read_DATA_X_MSB,4);
-	communication->write_to_channel(registers.at(1),4);
+	// communication->write_to_channel(registers.at(1),4);
+	send_command(registers.at(1));
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_X_LSB,4);
-	communication->write_to_channel(registers.at(0),4);
+	// communication->write_to_channel(registers.at(0),4);
+	send_command(registers.at(0));
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -201,13 +203,15 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 	// y
 	// communication->write_to_channel(read_DATA_Y_MSB,4);
-	communication->write_to_channel(registers.at(3),4);
+	// communication->write_to_channel(registers.at(3),4);
+	send_command(registers.at(3));
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_Y_LSB,4);
-	communication->write_to_channel(registers.at(2),4);
+	// communication->write_to_channel(registers.at(2),4);
+	send_command(registers.at(2));
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -216,13 +220,15 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 	// z
 	// communication->write_to_channel(read_DATA_Z_MSB,4);
-	communication->write_to_channel(registers.at(5),4);
+	// communication->write_to_channel(registers.at(5),4);
+	send_command(registers.at(5));
 	vec[1] = communication->read_from_channel();
 	//printf("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_Z_LSB,4);
-	communication->write_to_channel(registers.at(4),4);
+	// communication->write_to_channel(registers.at(4),4);
+	send_command(registers.at(4));
 	vec[0] = communication->read_from_channel();
 	//printf("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
@@ -238,37 +244,52 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	uint8_t arr2[2];
 	uint8_t arr0[2]; // used only for quaternion: w
 
+	uint8_t read_X_MSB_command[] = {0x00};
+	uint8_t read_X_LSB_command[] = {0x00};
+	uint8_t read_Y_MSB_command[] = {0x00};
+	uint8_t read_Y_LSB_command[] = {0x00};
+	uint8_t read_Z_MSB_command[] = {0x00};
+	uint8_t read_Z_LSB_command[] = {0x00};
+
+	std::vector<uint8_t*> registers = {read_X_LSB_command, read_X_MSB_command,
+									   read_Y_LSB_command, read_Y_MSB_command, 
+									   read_Z_LSB_command, read_Z_MSB_command};
+
 	if(opt == "ACC")
 	{
-		uint8_t read_X_MSB_command[] = {0x9};
-		communication->write_to_channel(read_X_MSB_command, 1);
-		arr[0] = communication->read_from_channel();
+		uint8_t nr = 0x08; // #define ACC_START
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
 
+		/*uint8_t read_X_MSB_command[] = {0x9};
 		uint8_t read_X_LSB_command[] = {0x8};
-		communication->write_to_channel(read_X_LSB_command, 1);
-		arr[1] = communication->read_from_channel();
-
+		
 		uint8_t read_Y_MSB_command[] = {0xB};
-		communication->write_to_channel(read_Y_MSB_command, 1);
-		arr1[0] = communication->read_from_channel();
-
+		
 		uint8_t read_Y_LSB_command[] = {0xA};
-		communication->write_to_channel(read_Y_LSB_command, 1);
-		arr1[1] = communication->read_from_channel();
-
+		
 		uint8_t read_Z_MSB_command[] = {0xD};
-		communication->write_to_channel(read_Z_MSB_command, 1);
-		arr2[0] = communication->read_from_channel();
-
+		
 		uint8_t read_Z_LSB_command[] = {0xC};
-		communication->write_to_channel(read_Z_LSB_command, 1);
-		arr2[1] = communication->read_from_channel();
+		*/
 
-		printf("ACC: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		// printf("ACC: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		printf("ACC: ");
 
 	}
 	else if(opt == "MAG")
 	{
+		uint8_t nr = 0xE;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+		
+		printf("MAG: ");
+
+		/*
 		uint8_t read_X_MSB_command[] = {0xF};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
@@ -294,11 +315,20 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("MAG: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-
+		*/
+		
 	}
 	else if(opt == "GYR")
 	{
-		uint8_t read_X_MSB_command[] = {0x15};
+		uint8_t nr = 0x14;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+		
+		printf("GYR: ");
+
+		/*uint8_t read_X_MSB_command[] = {0x15};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
 
@@ -323,11 +353,19 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("GYR: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-		
+		*/
 	}
 	else if(opt == "EUL")
 	{
-		uint8_t read_X_MSB_command[] = {0x1B};
+		uint8_t nr = 0x1A;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+		
+		printf("EUL: ");
+
+		/*uint8_t read_X_MSB_command[] = {0x1B};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
 
@@ -352,11 +390,17 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("EUL: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-
+		*/
 		
 	}
 	else if(opt == "QUA")
 	{
+		uint8_t nr = 0x20;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+
 		uint8_t read_W_MSB_command[] = {0x21};
 		communication->write_to_channel(read_W_MSB_command, 1);
 		arr0[0] = communication->read_from_channel();
@@ -365,7 +409,9 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_W_LSB_command, 1);
 		arr0[1] = communication->read_from_channel();
 
-		uint8_t read_X_MSB_command[] = {0x23};
+		printf("QUA: w = %d\n", convert_to_bytes(arr0));
+
+		/*uint8_t read_X_MSB_command[] = {0x23};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
 
@@ -390,11 +436,19 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("QUA: (%d, %d, %d, %d)\n",convert_to_bytes(arr0),convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-		
+		*/
 	}
 	else if(opt == "LIA")
 	{
-		uint8_t read_X_MSB_command[] = {0x29};
+		uint8_t nr = 0x28;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+		
+		printf("LIA: ");
+
+		/*uint8_t read_X_MSB_command[] = {0x29};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
 
@@ -419,12 +473,20 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("LIA: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-
+		*/
 		
 	}
 	else if(opt == "GRV")
 	{
-		uint8_t read_X_MSB_command[] = {0x2F};
+		uint8_t nr = 0x2E;
+		for(size_t i = 0; i < registers.size(); ++i)
+		{
+			registers.at(i)[0] = nr++;
+		}
+		
+		printf("GRV: ");
+
+		/*uint8_t read_X_MSB_command[] = {0x2F};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
 
@@ -449,15 +511,42 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		arr2[1] = communication->read_from_channel();
 
 		printf("GRV: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-		
+		*/
 	}
 	else if(opt == "TEMP")
 	{
 		uint8_t read_temp_command[] = {0x34};
-		communication->write_to_channel(read_temp_command, 1);
+		// communication->write_to_channel(read_temp_command, 1);
+		send_command(read_temp_command);
 		uint8_t tmp = communication->read_from_channel();
 		printf("TEMP: %d\n\n", tmp);
 	}
+
+	// communication->write_to_channel(read_X_MSB_command, 1);
+	send_command(read_X_MSB_command);
+	arr[0] = communication->read_from_channel();
+
+	// communication->write_to_channel(read_X_LSB_command, 1);
+	send_command(read_X_LSB_command);
+	arr[1] = communication->read_from_channel();
+
+	// communication->write_to_channel(read_Y_MSB_command, 1);
+	send_command(read_Y_MSB_command);
+	arr1[0] = communication->read_from_channel();
+
+	// communication->write_to_channel(read_Y_LSB_command, 1);
+	send_command(read_Y_LSB_command);
+	arr1[1] = communication->read_from_channel();
+
+	// communication->write_to_channel(read_Z_MSB_command, 1);
+	send_command(read_Z_MSB_command);
+	arr2[0] = communication->read_from_channel();
+
+	// communication->write_to_channel(read_Z_LSB_command, 1);
+	send_command(read_Z_LSB_command);
+	arr2[1] = communication->read_from_channel();
+
+	printf(" (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 }
 
 void BNO055_IMU::set_option(const string _opt)
@@ -477,7 +566,7 @@ void BNO055_IMU::stop_communication()
 
 void BNO055_IMU::send_command(uint8_t* command)
 {
-
+	communication->write_to_channel(command,sizeof(command));
 }
 
 void BNO055_IMU::publish_message()
