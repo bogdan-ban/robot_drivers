@@ -599,7 +599,13 @@ int main(int argc, char** argv)
 	{
 		case 0:
 		{
-			Communication* c = cf.create_communication("UART", "/dev/ttyS0", 115200);
+			string uart_port_name;
+			int baudrate = 0;
+			nh.getParam("uart_port_name",uart_port_name);
+			nh.getParam("baudrate",baudrate);
+
+			// Communication* c = cf.create_communication("UART", "/dev/ttyS0", 115200);
+			Communication* c = cf.create_communication("UART", (char*)uart_port_name.c_str(), baudrate);
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 
@@ -626,7 +632,13 @@ int main(int argc, char** argv)
 
 		case 1:
 		{
-			Communication* c = cf.create_communication("I2C", "/dev/i2c-2", 0x50);
+			string i2c_port_name;
+			int address = 0;
+			nh.getParam("i2c_port_name",i2c_port_name);
+			nh.getParam("address",address);
+
+			// Communication* c = cf.create_communication("I2C", "/dev/i2c-2", 0x50);
+			Communication* c = cf.create_communication("I2C", (char*)i2c_port_name.c_str(), address);
 
 			BNO055_IMU bno = BNO055_IMU(&nh,c);
 

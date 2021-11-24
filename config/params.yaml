@@ -1,0 +1,5 @@
+uart_port_name: "/dev/ttyS0"
+baudrate: 115200
+
+i2c_port_name: "/dev/i2c-2"
+address: 0x50
