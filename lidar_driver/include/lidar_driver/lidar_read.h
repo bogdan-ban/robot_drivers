@@ -12,7 +12,7 @@
 #include <asm/termbits.h>
 
 #include "lidar_driver/sensor.h"
-#include "lidar_driver/uart_communication.h"
+#include "lidar_driver/communication.h"
 
 #include "lidar_driver/driver_config.h"
 
@@ -33,7 +33,7 @@ private:
 	lidar_driver::frame frame;
 
 public:
-	Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name);
+	Lidar_Read(ros::NodeHandle *nh, Communication *comm);
 	~Lidar_Read();
 
 	void process_bytes();

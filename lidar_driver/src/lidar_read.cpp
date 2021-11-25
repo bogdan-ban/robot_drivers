@@ -1,6 +1,6 @@
 #include "lidar_driver/lidar_read.h"
 
-Lidar_Read::Lidar_Read(ros::NodeHandle *nh, int baudrate, char* port_name): Sensor(new UartCommunication(port_name, baudrate))
+Lidar_Read::Lidar_Read(ros::NodeHandle *nh, Communication *comm): Sensor(comm)
 {
 	nh->getParam("raw_topic", topic_name);
 	nh->getParam("frequency_read", frequency);
@@ -110,6 +110,7 @@ int Lidar_Read::lidar_reset()
 
 void Lidar_Read::start_communication()
 {
+	//port = communication->get_file_desc();
 }
 
 void Lidar_Read::stop_communication()

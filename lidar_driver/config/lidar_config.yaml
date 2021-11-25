@@ -7,10 +7,10 @@ frequency_read: 5000
 
 scan_topic: "/scan_frame" 
 
-max_angle: 360 
-min_angle: 0
+max_angle: 225
+min_angle: 135
 
-max_distance: 10
+max_distance: 3
 min_distance: 0.13
 
 frame_id: "laser_frame"

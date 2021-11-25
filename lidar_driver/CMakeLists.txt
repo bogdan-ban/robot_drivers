@@ -131,7 +131,10 @@ add_library(lidar_read src/lidar_read.cpp)
 
 add_library(lidar_process src/lidar_process.cpp)
 
+add_library(communication_factory src/CommunicationFactory.cpp)
+
 add_library(uart_communication src/uart_communication.cpp)
+add_library(i2c_communication src/i2c_communication.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -163,10 +166,13 @@ add_executable(process_node src/process_node.cpp)
 
 target_link_libraries(read_node ${catkin_LIBRARIES})
 target_link_libraries(read_node lidar_read)
-target_link_libraries(lidar_read uart_communication)
+target_link_libraries(lidar_read communication_factory)
 
 target_link_libraries(process_node ${catkin_LIBRARIES})
 target_link_libraries(process_node lidar_process)
+
+target_link_libraries(communication_factory i2c_communication)
+target_link_libraries(communication_factory uart_communication)
 
 #############
 ## Install ##

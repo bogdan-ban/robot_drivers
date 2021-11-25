@@ -1,4 +1,5 @@
 #include "lidar_driver/lidar_read.h"
+#include "lidar_driver/CommunicationFactory.h"
 
 int main(int argc, char** argv)
 {
@@ -11,7 +12,9 @@ int main(int argc, char** argv)
 	nh.getParam("port_name",port_name);
 	nh.getParam("baudrate", baudrate);
 
-	Lidar_Read rd(&nh, baudrate, (char*)port_name.c_str());
+	CommunicationFactory cf = CommunicationFactory();
+
+	Lidar_Read rd(&nh, cf.create_communication("UART", (char *)port_name.c_str(), baudrate));
 
    	return 0;
 }
