@@ -64,7 +64,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		// read_DATA_Y_LSB[2] = '\x0A';
 		// read_DATA_Z_MSB[2] = '\x0D';
 		// read_DATA_Z_LSB[2] = '\x0C';
-		printf("ACC: \n");
+		ROS_INFO("ACC: \n");
 	}
 	else if(opt == "MAG")
 	{
@@ -81,7 +81,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x13';
 		read_DATA_Z_LSB[2] = '\x12';
 		*/
-		printf("MAG: \n");
+		ROS_INFO("MAG: \n");
 	}
 	else if(opt == "GYR")
 	{
@@ -98,7 +98,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x19';
 		read_DATA_Z_LSB[2] = '\x18';
 		*/
-		printf("GYR: \n");
+		ROS_INFO("GYR: \n");
 	}
 	else if(opt == "EUL")
 	{
@@ -115,7 +115,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x1F';
 		read_DATA_Z_LSB[2] = '\x1E';
 		*/
-		printf("EUL: \n");
+		ROS_INFO("EUL: \n");
 	}
 	else if(opt == "QUA")
 	{
@@ -132,20 +132,20 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x27';
 		read_DATA_Z_LSB[2] = '\x26';
 		*/
-		printf("QUA: \n");
+		ROS_INFO("QUA: \n");
 		// w
 		uint8_t vec[2];
 		communication->write_to_channel(read_DATA_W_MSB,4);
 		vec[1] = communication->read_from_channel();
-		//printf("LSB: %x\n", vec[1]);
+		//ROS_INFO("LSB: %x\n", vec[1]);
 		//ros::Duration(0.1).sleep();
 
 		communication->write_to_channel(read_DATA_W_LSB,4);
 		vec[0] = communication->read_from_channel();
-		//printf("MSB: %x\n", vec[0]);
+		//ROS_INFO("MSB: %x\n", vec[0]);
 		//ros::Duration(0.1).sleep();
 
-		printf("w: %d\n",convert_to_bytes(vec));
+		ROS_INFO("w: %d\n",convert_to_bytes(vec));
 	}
 	else if(opt == "LIA")
 	{
@@ -162,7 +162,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x2D';
 		read_DATA_Z_LSB[2] = '\x2C';
 		*/
-		printf("LIA: \n");
+		ROS_INFO("LIA: \n");
 	}
 	else if(opt == "GRV")
 	{
@@ -179,7 +179,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		read_DATA_Z_MSB[2] = '\x33';
 		read_DATA_Z_LSB[2] = '\x32';
 		*/
-		printf("GRV: \n");
+		ROS_INFO("GRV: \n");
 	}
 		
 	uint8_t vec[2];
@@ -189,51 +189,51 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	// communication->write_to_channel(registers.at(1),4);
 	send_command(registers.at(1));
 	vec[1] = communication->read_from_channel();
-	//printf("LSB: %x\n", vec[1]);
+	//ROS_INFO("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_X_LSB,4);
 	// communication->write_to_channel(registers.at(0),4);
 	send_command(registers.at(0));
 	vec[0] = communication->read_from_channel();
-	//printf("MSB: %x\n", vec[0]);
+	//ROS_INFO("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
 
-	printf("x: %d\n",convert_to_bytes(vec));
+	ROS_INFO("x: %d\n",convert_to_bytes(vec));
 
 	// y
 	// communication->write_to_channel(read_DATA_Y_MSB,4);
 	// communication->write_to_channel(registers.at(3),4);
 	send_command(registers.at(3));
 	vec[1] = communication->read_from_channel();
-	//printf("LSB: %x\n", vec[1]);
+	//ROS_INFO("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_Y_LSB,4);
 	// communication->write_to_channel(registers.at(2),4);
 	send_command(registers.at(2));
 	vec[0] = communication->read_from_channel();
-	//printf("MSB: %x\n", vec[0]);
+	//ROS_INFO("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
 
-	printf("y: %d\n",convert_to_bytes(vec));
+	ROS_INFO("y: %d\n",convert_to_bytes(vec));
 
 	// z
 	// communication->write_to_channel(read_DATA_Z_MSB,4);
 	// communication->write_to_channel(registers.at(5),4);
 	send_command(registers.at(5));
 	vec[1] = communication->read_from_channel();
-	//printf("LSB: %x\n", vec[1]);
+	//ROS_INFO("LSB: %x\n", vec[1]);
 	//ros::Duration(0.1).sleep();
 
 	// communication->write_to_channel(read_DATA_Z_LSB,4);
 	// communication->write_to_channel(registers.at(4),4);
 	send_command(registers.at(4));
 	vec[0] = communication->read_from_channel();
-	//printf("MSB: %x\n", vec[0]);
+	//ROS_INFO("MSB: %x\n", vec[0]);
 	//ros::Duration(0.1).sleep();
 
-	printf("z: %d\n\n",convert_to_bytes(vec));
+	ROS_INFO("z: %d\n\n",convert_to_bytes(vec));
 	//ros::Duration(1).sleep();
 }
 
@@ -275,8 +275,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		uint8_t read_Z_LSB_command[] = {0xC};
 		*/
 
-		// printf("ACC: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
-		printf("ACC: ");
+		// ROS_INFO("ACC: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("ACC: ");
 
 	}
 	else if(opt == "MAG")
@@ -287,7 +287,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 			registers.at(i)[0] = nr++;
 		}
 		
-		printf("MAG: ");
+		ROS_INFO("MAG: ");
 
 		/*
 		uint8_t read_X_MSB_command[] = {0xF};
@@ -314,7 +314,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("MAG: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("MAG: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 		
 	}
@@ -326,7 +326,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 			registers.at(i)[0] = nr++;
 		}
 		
-		printf("GYR: ");
+		ROS_INFO("GYR: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x15};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -352,7 +352,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("GYR: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("GYR: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 	}
 	else if(opt == "EUL")
@@ -363,7 +363,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 			registers.at(i)[0] = nr++;
 		}
 		
-		printf("EUL: ");
+		ROS_INFO("EUL: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x1B};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -389,7 +389,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("EUL: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("EUL: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 		
 	}
@@ -409,7 +409,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_W_LSB_command, 1);
 		arr0[1] = communication->read_from_channel();
 
-		printf("QUA: w = %d\n", convert_to_bytes(arr0));
+		ROS_INFO("QUA: w = %d\n", convert_to_bytes(arr0));
 
 		/*uint8_t read_X_MSB_command[] = {0x23};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -435,7 +435,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("QUA: (%d, %d, %d, %d)\n",convert_to_bytes(arr0),convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("QUA: (%d, %d, %d, %d)\n",convert_to_bytes(arr0),convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 	}
 	else if(opt == "LIA")
@@ -446,7 +446,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 			registers.at(i)[0] = nr++;
 		}
 		
-		printf("LIA: ");
+		ROS_INFO("LIA: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x29};
 		communication->write_to_channel(read_X_MSB_command, 1);
@@ -472,7 +472,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("LIA: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("LIA: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 		
 	}
@@ -484,8 +484,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 			registers.at(i)[0] = nr++;
 		}
 		
-		printf("GRV: ");
-
+		ROS_INFO("GRV: ");
+		
 		/*uint8_t read_X_MSB_command[] = {0x2F};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();
@@ -510,7 +510,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		communication->write_to_channel(read_Z_LSB_command, 1);
 		arr2[1] = communication->read_from_channel();
 
-		printf("GRV: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+		ROS_INFO("GRV: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
 	}
 	else if(opt == "TEMP")
@@ -519,7 +519,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		// communication->write_to_channel(read_temp_command, 1);
 		send_command(read_temp_command);
 		uint8_t tmp = communication->read_from_channel();
-		printf("TEMP: %d\n\n", tmp);
+		ROS_INFO("TEMP: %d\n\n", tmp);
 	}
 
 	// communication->write_to_channel(read_X_MSB_command, 1);
@@ -546,7 +546,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	send_command(read_Z_LSB_command);
 	arr2[1] = communication->read_from_channel();
 
-	printf(" (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
+	ROS_INFO(" (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 }
 
 void BNO055_IMU::set_option(const string _opt)
@@ -591,11 +591,16 @@ int main(int argc, char** argv)
 	CommunicationFactory cf = CommunicationFactory();
 
 
-	int option = 0;
-	cout << "Choose communication: (UART)0, (I2C)1, (SPI)2\n";
-	cin >> option;
+	// int option = 0;
+	// cout << "Choose communication: (UART)0, (I2C)1, (SPI)2\n";
+	// cin >> option;
 
-	switch(option)
+	int comm_type = -1;
+
+	nh.getParam("communication_type",comm_type);
+	ROS_INFO("communication_type: %d\n",comm_type);
+
+	switch(comm_type)
 	{
 		case 0:
 		{
@@ -625,7 +630,7 @@ int main(int argc, char** argv)
 				ros::Duration(1).sleep();
 			}
 
-			bno.stop_communication();	
+			bno.stop_communication();
 
 		}
 		break;

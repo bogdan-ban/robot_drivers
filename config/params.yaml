@@ -1,3 +1,6 @@
+# 0 for UART & 1 for I2C
+communication_type: 1
+
 uart_port_name: "/dev/ttyS0"
 baudrate: 115200
 
