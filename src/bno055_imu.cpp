@@ -1,4 +1,4 @@
-#include "robot_drivers/bno055_imu.h"
+#include "bno055_driver/bno055_imu.h"
 
 BNO055_IMU::BNO055_IMU(ros::NodeHandle* nh, Communication* c) : Sensor(c)
 {
@@ -42,7 +42,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	uint8_t read_DATA_Y_LSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 4
 	uint8_t read_DATA_Z_MSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 5
 	uint8_t read_DATA_Z_LSB[4] = { 0xAA, 0x01, 0x0, 0x01}; // 6
-	
+
 
 	std::vector<uint8_t*> registers = {read_DATA_X_LSB, read_DATA_X_MSB, read_DATA_Y_LSB, read_DATA_Y_MSB, read_DATA_Z_LSB, read_DATA_Z_MSB};
 
@@ -181,7 +181,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 		*/
 		ROS_INFO("GRV: \n");
 	}
-		
+
 	uint8_t vec[2];
 
 	// x
@@ -252,7 +252,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	uint8_t read_Z_LSB_command[] = {0x00};
 
 	std::vector<uint8_t*> registers = {read_X_LSB_command, read_X_MSB_command,
-									   read_Y_LSB_command, read_Y_MSB_command, 
+									   read_Y_LSB_command, read_Y_MSB_command,
 									   read_Z_LSB_command, read_Z_MSB_command};
 
 	if(opt == "ACC")
@@ -265,13 +265,13 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		/*uint8_t read_X_MSB_command[] = {0x9};
 		uint8_t read_X_LSB_command[] = {0x8};
-		
+
 		uint8_t read_Y_MSB_command[] = {0xB};
-		
+
 		uint8_t read_Y_LSB_command[] = {0xA};
-		
+
 		uint8_t read_Z_MSB_command[] = {0xD};
-		
+
 		uint8_t read_Z_LSB_command[] = {0xC};
 		*/
 
@@ -286,7 +286,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		{
 			registers.at(i)[0] = nr++;
 		}
-		
+
 		ROS_INFO("MAG: ");
 
 		/*
@@ -316,7 +316,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		ROS_INFO("MAG: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
-		
+
 	}
 	else if(opt == "GYR")
 	{
@@ -325,7 +325,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		{
 			registers.at(i)[0] = nr++;
 		}
-		
+
 		ROS_INFO("GYR: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x15};
@@ -362,7 +362,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		{
 			registers.at(i)[0] = nr++;
 		}
-		
+
 		ROS_INFO("EUL: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x1B};
@@ -391,7 +391,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		ROS_INFO("EUL: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
-		
+
 	}
 	else if(opt == "QUA")
 	{
@@ -445,7 +445,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		{
 			registers.at(i)[0] = nr++;
 		}
-		
+
 		ROS_INFO("LIA: ");
 
 		/*uint8_t read_X_MSB_command[] = {0x29};
@@ -474,7 +474,7 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 
 		ROS_INFO("LIA: (%d, %d, %d)\n",convert_to_bytes(arr),convert_to_bytes(arr1),convert_to_bytes(arr2));
 		*/
-		
+
 	}
 	else if(opt == "GRV")
 	{
@@ -483,9 +483,9 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		{
 			registers.at(i)[0] = nr++;
 		}
-		
+
 		ROS_INFO("GRV: ");
-		
+
 		/*uint8_t read_X_MSB_command[] = {0x2F};
 		communication->write_to_channel(read_X_MSB_command, 1);
 		arr[0] = communication->read_from_channel();

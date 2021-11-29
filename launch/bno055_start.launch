@@ -1,5 +1,5 @@
 <launch>
-	
+
 	<rosparam command="load" file="$(find robot_drivers)/config/params.yaml"/>
 	<node name="bno055_node" pkg="robot_drivers" type="bno055_node" output="screen"/>
 

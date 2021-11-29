@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(robot_drivers)
+project(bno055_driver)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  drivers
 )
 
 ## System dependencies are found with CMake's conventions
@@ -73,7 +74,7 @@ find_package(catkin REQUIRED COMPONENTS
  #generate_messages(
   # DEPENDENCIES
    #geometry_msgs
-   #sensor_msgs   
+   #sensor_msgs
    #std_msgs
  #)
 
@@ -108,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES robot_drivers
+#  LIBRARIES bno055_driver
   CATKIN_DEPENDS geometry_msgs roscpp rospy sensor_msgs std_msgs message_runtime
 #  DEPENDS system_lib
 )
@@ -126,13 +127,13 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/robot_drivers.cpp
+#   src/${PROJECT_NAME}/bno055_driver.cpp
 # )
 
-add_library(i2c_communication src/i2c_communication.cpp)
-add_library(uart_communication src/uart_communication.cpp)
+# add_library(i2c_communication src/i2c_communication.cpp)
+# add_library(uart_communication src/uart_communication.cpp)
 add_library(bno055_imu src/bno055_imu.cpp)
-add_library(CommunicationFactory src/CommunicationFactory.cpp)
+# add_library(CommunicationFactory src/CommunicationFactory.cpp)
 
 
 ## Add cmake target dependencies of the library
@@ -143,7 +144,7 @@ add_library(CommunicationFactory src/CommunicationFactory.cpp)
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/robot_drivers_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/bno055_driver_node.cpp)
 
 add_executable(bno055_node src/bno055_imu.cpp)
 target_link_libraries(bno055_node ${catkin_LIBRARIES})
@@ -163,11 +164,11 @@ target_link_libraries(bno055_node ${catkin_LIBRARIES})
 #   ${catkin_LIBRARIES}
 # )
 
-target_link_libraries(bno055_node i2c_communication)
-target_link_libraries(bno055_node uart_communication)
-target_link_libraries(bno055_node CommunicationFactory)
-target_link_libraries(CommunicationFactory i2c_communication)
-target_link_libraries(CommunicationFactory uart_communication)
+# target_link_libraries(bno055_node i2c_communication)
+# target_link_libraries(bno055_node uart_communication)
+# target_link_libraries(bno055_node CommunicationFactory)
+# target_link_libraries(CommunicationFactory i2c_communication)
+# target_link_libraries(CommunicationFactory uart_communication)
 
 
 #############
@@ -217,7 +218,7 @@ target_link_libraries(CommunicationFactory uart_communication)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_robot_drivers.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_bno055_driver.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

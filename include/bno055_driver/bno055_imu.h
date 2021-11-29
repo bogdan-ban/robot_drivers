@@ -13,11 +13,11 @@
 #include <stdint.h>
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
-#include "uart_communication.h"
-#include "i2c_communication.h"
-#include "communication.h"
-#include "sensor.h"
-#include "CommunicationFactory.h"
+#include "drivers/uart_communication.h"
+#include "drivers/i2c_communication.h"
+#include "drivers/communication.h"
+#include "drivers/sensor.h"
+#include "drivers/CommunicationFactory.h"
 
 #define ACC_START_BYTE 0x08
 #define MAG_START_BYTE 0xE
@@ -59,7 +59,7 @@ public:
 	void stop_communication();
 
 	void read_data(uint8_t* buffer, int size);
-	
+
 	void send_command(uint8_t* command);
 
 	void publish_message();
