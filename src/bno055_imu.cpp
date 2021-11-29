@@ -2,7 +2,14 @@
 
 BNO055_IMU::BNO055_IMU(ros::NodeHandle* nh, Communication* c) : Sensor(c)
 {
-	// pub_acc = nh->advertise<>(PUBLISH_TOPIC_ACC,3);
+	pub_acc = nh->advertise<bno055_driver::acc>(PUBLISH_TOPIC_ACC,3);
+	pub_mag = nh->advertise<bno055_driver::mag>(PUBLISH_TOPIC_MAG,3);
+	pub_gyr = nh->advertise<bno055_driver::gyr>(PUBLISH_TOPIC_GYR,3);
+	pub_eul = nh->advertise<bno055_driver::eul>(PUBLISH_TOPIC_EUL,3);
+	pub_qua = nh->advertise<bno055_driver::qua>(PUBLISH_TOPIC_QUA,3);
+	pub_lia = nh->advertise<bno055_driver::lia>(PUBLISH_TOPIC_LIA,3);
+	pub_grv = nh->advertise<bno055_driver::grv>(PUBLISH_TOPIC_GRV,3);
+	pub_tmp = nh->advertise<bno055_driver::tmp>(PUBLISH_TOPIC_TMP,3);
 }
 
 void BNO055_IMU::start_communication()

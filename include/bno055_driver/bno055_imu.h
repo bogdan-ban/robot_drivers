@@ -18,6 +18,14 @@
 #include "drivers/communication.h"
 #include "drivers/sensor.h"
 #include "drivers/CommunicationFactory.h"
+#include "bno055_driver/acc.h"
+#include "bno055_driver/mag.h"
+#include "bno055_driver/gyr.h"
+#include "bno055_driver/eul.h"
+#include "bno055_driver/qua.h"
+#include "bno055_driver/lia.h"
+#include "bno055_driver/grv.h"
+#include "bno055_driver/tmp.h"
 
 #define ACC_START_BYTE 0x08
 #define MAG_START_BYTE 0xE
