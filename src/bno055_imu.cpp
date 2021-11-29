@@ -2,7 +2,7 @@
 
 BNO055_IMU::BNO055_IMU(ros::NodeHandle* nh, Communication* c) : Sensor(c)
 {
-
+	// pub_acc = nh->advertise<>(PUBLISH_TOPIC_ACC,3);
 }
 
 void BNO055_IMU::start_communication()
@@ -52,7 +52,7 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 	if(opt == "ACC")
 	{
-		uint8_t nr = 0x08;
+		uint8_t nr = ACC_START_BYTE;
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -68,7 +68,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "MAG")
 	{
-		uint8_t nr = 0x0E;
+		uint8_t nr = MAG_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -85,7 +86,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "GYR")
 	{
-		uint8_t nr = 0x14;
+		uint8_t nr = GYR_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -102,7 +104,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "EUL")
 	{
-		uint8_t nr = 0x1A;
+		uint8_t nr = EUL_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -119,7 +122,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "QUA")
 	{
-		uint8_t nr = 0x22;
+		uint8_t nr = QUA_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -149,7 +153,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "LIA")
 	{
-		uint8_t nr = 0x08;
+		uint8_t nr = LIA_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -166,7 +171,8 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	}
 	else if(opt == "GRV")
 	{
-		uint8_t nr = 0x08;
+		uint8_t nr = GRV_START_BYTE;
+
 		for(size_t i = 0; i < registers.size(); ++i)
 		{
 			registers.at(i)[2] = nr++;
@@ -589,11 +595,6 @@ int main(int argc, char** argv)
 	ros::Rate rate(10);
 
 	CommunicationFactory cf = CommunicationFactory();
-
-
-	// int option = 0;
-	// cout << "Choose communication: (UART)0, (I2C)1, (SPI)2\n";
-	// cin >> option;
 
 	int comm_type = -1;
 

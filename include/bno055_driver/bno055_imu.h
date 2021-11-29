@@ -27,6 +27,15 @@
 #define LIA_START_BYTE 0x28
 #define GRV_START_BYTE 0x2E
 
+#define PUBLISH_TOPIC_ACC "/bno055/acc"
+#define PUBLISH_TOPIC_MAG "/bno055/mag"
+#define PUBLISH_TOPIC_GYR "/bno055/gyr"
+#define PUBLISH_TOPIC_EUL "/bno055/eul"
+#define PUBLISH_TOPIC_QUA "/bno055/qua"
+#define PUBLISH_TOPIC_LIA "/bno055/lia"
+#define PUBLISH_TOPIC_GRV "/bno055/grv"
+#define PUBLISH_TOPIC_TMP "/bno055/tmp"
+
 using namespace std;
 
 
@@ -35,7 +44,14 @@ std::vector<string> features = {"ACC","MAG","GYR","EUL","QUA","LIA","GRV"};
 class BNO055_IMU : public Sensor
 {
 private:
-	ros::Publisher pub;
+	ros::Publisher pub_acc;
+	ros::Publisher pub_mag;
+	ros::Publisher pub_gyr;
+	ros::Publisher pub_eul;
+	ros::Publisher pub_qua;
+	ros::Publisher pub_lia;
+	ros::Publisher pub_grv;
+	ros::Publisher pub_tmp;
 
 	string option;
 
