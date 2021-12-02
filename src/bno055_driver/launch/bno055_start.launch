@@ -1,0 +1,6 @@
+<launch>
+
+	<rosparam command="load" file="$(find bno055_driver)/config/params.yaml"/>
+	<node name="bno055_node" pkg="bno055_driver" type="bno055_node" output="screen"/>
+
+</launch>
