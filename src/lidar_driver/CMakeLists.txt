@@ -166,6 +166,10 @@ target_link_libraries(read_node lidar_read)
 target_link_libraries(process_node ${catkin_LIBRARIES})
 target_link_libraries(process_node lidar_process)
 
+
+add_dependencies(lidar_process lidar_driver_generate_messages_cpp)
+add_dependencies(lidar_read lidar_driver_generate_messages_cpp)
+
 #############
 ## Install ##
 #############

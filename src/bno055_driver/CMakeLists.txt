@@ -148,6 +148,7 @@ add_library(bno055_imu src/bno055_imu.cpp)
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
@@ -155,6 +156,8 @@ add_library(bno055_imu src/bno055_imu.cpp)
 
 add_executable(bno055_node src/bno055_imu.cpp)
 target_link_libraries(bno055_node ${catkin_LIBRARIES})
+
+add_dependencies(bno055_imu bno055_driver_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

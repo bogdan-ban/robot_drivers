@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-// #include <termios.h>
 #include <string.h>
 #include <stdint.h>
 #include <sys/ioctl.h>
@@ -47,7 +46,7 @@
 using namespace std;
 
 
-std::vector<string> features = {"ACC","MAG","GYR","EUL","QUA","LIA","GRV"};
+std::vector<string> features = {"ACC","MAG","GYR","EUL","QUA","LIA","GRV","TEMP"};
 
 class BNO055_IMU : public Sensor
 {
