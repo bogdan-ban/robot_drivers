@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <iostream>
 #include <stdio.h>
+#include <sstream>
 #include <fstream>
 #include <unistd.h>
 #include <fcntl.h>
@@ -88,6 +89,8 @@ public:
 	void publish_message();
 
 	void create_message();
+
+	uint8_t get_byte(uint8_t* cmd);
 
 };
 
