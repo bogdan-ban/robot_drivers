@@ -8,6 +8,7 @@
 #include <linux/i2c-dev.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <vector>
 #include "communication.h"
 
 using namespace std;
@@ -25,6 +26,8 @@ public:
 	void write_to_channel(const uint8_t buffer[],int size);
 
 	void stop();
+	
+	void flush();
 
 	int convert_to_bytes(uint8_t vec[2]);
 

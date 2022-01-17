@@ -9,7 +9,7 @@
 #include <linux/serial.h>
 #include <errno.h>
 #include <asm/ioctls.h>
-#include <asm/termbits.h>
+// #include <asm/termbits.h>
 
 #include "drivers/sensor.h"
 #include "drivers/communication.h"

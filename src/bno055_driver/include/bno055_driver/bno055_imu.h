@@ -31,7 +31,7 @@
 #define MAG_START_BYTE 0xE
 #define GYR_START_BYTE 0x14
 #define EUL_START_BYTE 0x1A
-#define QUA_START_BYTE 0x20
+#define QUA_START_BYTE 0x22
 #define LIA_START_BYTE 0x28
 #define GRV_START_BYTE 0x2E
 
@@ -64,6 +64,14 @@ private:
 	string option;
 
 public:
+	bool activate_acc_topic = false;
+	bool activate_mag_topic = false;
+	bool activate_gyr_topic = false;
+	bool activate_eul_topic = false;
+	bool activate_qua_topic = false;
+	bool activate_lia_topic = false;
+	bool activate_grv_topic = false;
+	bool activate_tmp_topic = false;
 
 	BNO055_IMU(ros::NodeHandle* nh, Communication* c);
 
@@ -90,7 +98,7 @@ public:
 
 	void create_message();
 
-	uint8_t get_byte(uint8_t* cmd);
+	uint8_t get_byte(uint8_t cmd[]);
 
 };
 

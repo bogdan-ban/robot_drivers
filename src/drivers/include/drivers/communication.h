@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <vector>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ public:
 	virtual void write_to_channel(const uint8_t buffer[], int size) = 0;
 
 	virtual void stop() = 0;
+	
+	virtual void flush() = 0;
 
 };
 

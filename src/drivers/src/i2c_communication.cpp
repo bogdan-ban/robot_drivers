@@ -57,6 +57,11 @@ void I2cCommunication::stop()
 	close(fd);
 }
 
+void I2cCommunication::flush()
+{
+	
+}
+
 int I2cCommunication::convert_to_bytes(uint8_t vec[2])
 {
 	return 256 * vec[0] + vec[1];

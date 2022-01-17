@@ -1,8 +1,17 @@
 # 0 for UART & 1 for I2C
-communication_type: 0
+communication_type: 1
 
 uart_port_name: "/dev/ttyS0"
 baudrate: 115200
 
 i2c_port_name: "/dev/i2c-1"
 address: 0x28
+
+activate_acc_topic: true
+activate_mag_topic: true
+activate_gyr_topic: true
+activate_eul_topic: true
+activate_qua_topic: true
+activate_lia_topic: true
+activate_grv_topic: true
+activate_tmp_topic: true

@@ -15,6 +15,10 @@ Communication* CommunicationFactory::create_communication(string name, char* pat
 	{
 		return new I2cCommunication(path, baudrate_or_addr); 
 	}
+	else if(name == "UART_115200")
+	{
+		return new UartCommunication(path); 
+	}
 	else
 	{
 		return nullptr;
