@@ -79,14 +79,13 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	uint8_t read_DATA_W_MSB[4] = { 0xAA, 0x01, 0x21, 0x01};
 	uint8_t read_DATA_W_LSB[4] = { 0xAA, 0x01, 0x20, 0x01};
 
-	std::vector<uint8_t*> registers = {
-										read_DATA_X_LSB, 
-										read_DATA_X_MSB, 
-										read_DATA_Y_LSB, 
-										read_DATA_Y_MSB, 
-										read_DATA_Z_LSB, 
-										read_DATA_Z_MSB
-									  };
+	std::vector<uint8_t*> registers = {	read_DATA_X_LSB, 
+						read_DATA_X_MSB, 
+						read_DATA_Y_LSB, 
+						read_DATA_Y_MSB, 
+						read_DATA_Z_LSB, 
+						read_DATA_Z_MSB
+					  };
 
 	if(opt == "ACC")
 	{
@@ -308,9 +307,11 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	uint8_t read_Z_MSB_command[] = {0x00};
 	uint8_t read_Z_LSB_command[] = {0x00};
 
-	std::vector<uint8_t*> registers = {read_X_LSB_command, read_X_MSB_command,
-									   read_Y_LSB_command, read_Y_MSB_command,
-									   read_Z_LSB_command, read_Z_MSB_command};
+	std::vector<uint8_t*> registers = {
+						read_X_LSB_command, read_X_MSB_command,
+					   	read_Y_LSB_command, read_Y_MSB_command,
+						read_Z_LSB_command, read_Z_MSB_command
+					  };
 
 
 	if(opt == "ACC")
