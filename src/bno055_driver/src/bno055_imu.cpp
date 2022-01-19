@@ -79,13 +79,14 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 	uint8_t read_DATA_W_MSB[4] = { 0xAA, 0x01, 0x21, 0x01};
 	uint8_t read_DATA_W_LSB[4] = { 0xAA, 0x01, 0x20, 0x01};
 
-	std::vector<uint8_t*> registers = {	read_DATA_X_LSB, 
-						read_DATA_X_MSB, 
-						read_DATA_Y_LSB, 
-						read_DATA_Y_MSB, 
-						read_DATA_Z_LSB, 
-						read_DATA_Z_MSB
-					  };
+	std::vector<uint8_t*> registers = {
+										read_DATA_X_LSB, 
+										read_DATA_X_MSB, 
+										read_DATA_Y_LSB, 
+										read_DATA_Y_MSB, 
+										read_DATA_Z_LSB, 
+										read_DATA_Z_MSB
+									  };
 
 	if(opt == "ACC")
 	{
@@ -148,7 +149,10 @@ void BNO055_IMU::read_all_data_UART(const string opt)
 
 		// w
 		w_coord[1] = get_byte(read_DATA_W_LSB);
-		w_coord[0] = get_byte(read_DATA_W_MSB);
+		w_coord[0] = get_byte(read_DATA_acc_msg.x = (float)convert_to_bytes(x_coord)/divider;
+		acc_msg.y = (float)convert_to_bytes(y_coord)/divider;
+		acc_msg.z = (float)convert_to_bytes(z_coord)/divider;
+		W_MSB);
 		
 		ROS_INFO("w: %.4f\n",(float)convert_to_bytes(w_coord)/divider);
 	}
@@ -307,11 +311,9 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 	uint8_t read_Z_MSB_command[] = {0x00};
 	uint8_t read_Z_LSB_command[] = {0x00};
 
-	std::vector<uint8_t*> registers = {
-						read_X_LSB_command, read_X_MSB_command,
-					   	read_Y_LSB_command, read_Y_MSB_command,
-						read_Z_LSB_command, read_Z_MSB_command
-					  };
+	std::vector<uint8_t*> registers = {read_X_LSB_command, read_X_MSB_command,
+									   read_Y_LSB_command, read_Y_MSB_command,
+									   read_Z_LSB_command, read_Z_MSB_command};
 
 
 	if(opt == "ACC")
@@ -444,14 +446,21 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		acc_msg.y = (float)convert_to_bytes(y_coord)/divider;
 		acc_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		pub_acc.publish(acc_msg);
+		// acc_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_acc,acc_msg);
 	}
 	else if(opt == "MAG" && activate_mag_topic)
 	{
 		bno055_driver::mag mag_msg;
 		mag_msg.x = (float)convert_to_bytes(x_coord) /divider;
 		mag_msg.y = (float)convert_to_bytes(y_coord)/divider;
-		mag_msg.z = (float)convert_to_bytes(z_coord)/divider;
+		mag_msg.z = (float)convert_to_byteacc_msg.x = (float)convert_to_bytes(x_coord)/divider;
+		acc_msg.y = (float)convert_to_bytes(y_coord)/divider;
+		acc_msg.z = (float)convert_to_bytes(z_coord)/divider;
+		s(z_coord)/divider;
 		pub_mag.publish(mag_msg);
+		// mag_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_mag,mag_msg);
 	}
 	else if(opt == "GYR" && activate_gyr_topic)
 	{
@@ -460,6 +469,9 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		gyr_msg.y = (float)convert_to_bytes(y_coord)/divider;
 		gyr_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		pub_gyr.publish(gyr_msg);
+		// gyr_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_gyr,gyr_msg);
+		
 	}
 	else if(opt == "EUL" && activate_eul_topic)
 	{
@@ -468,6 +480,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		eul_msg.y = (float)convert_to_bytes(y_coord)/divider;
 		eul_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		pub_eul.publish(eul_msg);
+		// eul_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_eul,eul_msg);
 	}
 	else if(opt == "QUA" && activate_qua_topic)
 	{
@@ -477,6 +491,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		qua_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		qua_msg.w = (float)convert_to_bytes(w_coord)/divider;
 		pub_qua.publish(qua_msg);
+		// qua_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_qua,qua_msg);
 		
 	}
 	else if(opt == "LIA" && activate_lia_topic)
@@ -486,6 +502,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		lia_msg.y = (float)convert_to_bytes(y_coord)/divider;
 		lia_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		pub_lia.publish(lia_msg);
+		// lia_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_lia,lia_msg);
 	}
 	else if(opt == "GRV" && activate_grv_topic)
 	{
@@ -494,6 +512,8 @@ void BNO055_IMU::read_all_data_I2C(const string opt)
 		grv_msg.y = (float)convert_to_bytes(y_coord)/divider;
 		grv_msg.z = (float)convert_to_bytes(z_coord)/divider;
 		pub_grv.publish(grv_msg);
+		// grv_msg = create_message_bno(x_coord,y_coord,z_coord,w_coord,divider);
+		// publish_message_bno(pub_grv,grv_msg);
 	}
 
 	ros::Duration(0.1).sleep();
@@ -521,67 +541,33 @@ void BNO055_IMU::send_command(uint8_t* command)
 
 void BNO055_IMU::publish_message()
 {
-	if(option == "ACC")
-	{
 
-	}
-	else if(option == "MAG")
-	{
-
-	}
-	else if(option == "GYR")
-	{
-		
-	}
-	else if(option == "EUL")
-	{
-		
-	}
-	else if(option == "QUA")
-	{
-		
-	}
-	else if(option == "LIA")
-	{
-		
-	}
-	else if(option == "GRV")
-	{
-		
-	}
 }
 
 void BNO055_IMU::create_message()
 {
-	if(option == "ACC")
-	{
-		
-	}
-	else if(option == "MAG")
-	{
 
-	}
-	else if(option == "GYR")
-	{
-		
-	}
-	else if(option == "EUL")
-	{
-		
-	}
-	else if(option == "QUA")
-	{
-		
-	}
-	else if(option == "LIA")
-	{
-		
-	}
-	else if(option == "GRV")
-	{
-		
-	}
 }
+
+// template<class T, class U>
+// void BNO055_IMU::publish_message_bno(T publisher, U message)
+// {
+// 	publisher.publish(message);
+// }
+
+// template<class U>
+// U BNO055_IMU::create_message_bno(uint8_t x_coord[2],uint8_t y_coord[2],uint8_t z_coord[2],uint8_t w_coord[2],int divider)
+// {
+// 	U message;
+// 	message.x = (float)convert_to_bytes(x_coord) /divider;
+// 	message.y = (float)convert_to_bytes(y_coord)/divider;
+// 	message.z = (float)convert_to_bytes(z_coord)/divider;
+// 	if(std::is_same<U,bno055_driver::qua>::value)
+// 	{
+// 		message.w = (float)convert_to_bytes(w_coord)/divider;
+// 	}
+// 	return message;
+// }
 
 void BNO055_IMU::activate_topics(ros::NodeHandle* nh)
 {

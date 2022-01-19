@@ -3,6 +3,7 @@
 
 #include <ros/ros.h>
 #include <iostream>
+#include <type_traits>
 #include <stdio.h>
 #include <sstream>
 #include <fstream>
@@ -71,7 +72,6 @@ public:
 	bool activate_qua_topic = false;
 	bool activate_lia_topic = false;
 	bool activate_grv_topic = false;
-	bool activate_tmp_topic = false;
 
 	BNO055_IMU(ros::NodeHandle* nh, Communication* c);
 
@@ -82,6 +82,8 @@ public:
 	void read_all_data_I2C(const string opt);
 
 	void set_option(const string _opt);
+
+	void activate_topics(ros::NodeHandle* nh);
 
 	Communication* get_communication();
 
@@ -97,6 +99,12 @@ public:
 	void publish_message();
 
 	void create_message();
+
+	// template<class T, class U>
+	// void publish_message_bno(T publisher, U message);
+
+	// template<class U>
+	// U create_message_bno(uint8_t x_coord[],uint8_t y_coord[],uint8_t z_coord[],uint8_t w_coord[],int divider);
 
 	uint8_t get_byte(uint8_t cmd[]);
 
