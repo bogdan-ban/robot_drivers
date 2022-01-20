@@ -87,6 +87,9 @@ public:
 
 	Communication* get_communication();
 
+	template<class T, class U>
+	void publish_message_bno(T publisher, U message);
+
 	// inherited functions
 	void start_communication();
 
@@ -99,12 +102,6 @@ public:
 	void publish_message();
 
 	void create_message();
-
-	// template<class T, class U>
-	// void publish_message_bno(T publisher, U message);
-
-	// template<class U>
-	// U create_message_bno(uint8_t x_coord[],uint8_t y_coord[],uint8_t z_coord[],uint8_t w_coord[],int divider);
 
 	uint8_t get_byte(uint8_t cmd[]);
 
